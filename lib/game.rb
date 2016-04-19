@@ -1,6 +1,3 @@
-require "../lib/contestant.rb"
-require "../lib/tribe.rb"
-
 class Game
   attr_reader = :tribes
 
@@ -27,21 +24,12 @@ class Game
   end
 
   def immunity_challenge
-    # loosing_tribe = @tribes.sample
-    # loosing_member = loosing_tribe.members.sample
-    # loosing_tribe.members.delete(loosing_member)
-    # loosing_tribe
     @tribes.sample
   end
 
   def individual_immunity_challenge
-    immune = immunity_challenge.members.sample
-    # @tribes.each do |tribe|
-    #   if tribe.members.include?(immune)
-    #     puts "This is the tribe that is the winning tribe with the immune player who's name is #{immune}"
-    #   else
-    #     puts "This is the loosing tribe #{tribe}"
-    #   end
-    # end
+    winning_tribe = immunity_challenge
+    immune = winning_tribe.members.sample
+    winning_tribe.tribal_council(immune: immune)
   end
 end
