@@ -23,13 +23,16 @@ class Game
     Tribe.new(name: new_tribe_name, members: combined_members)
   end
 
-  def immunity_challenge
+  def immunity_challenge #selects a tribe at random
     @tribes.sample
   end
 
+  def random_member #selects from a random tribe a member at random
+    @tribes.sample.members.sample
+  end
+
   def individual_immunity_challenge
-    winning_tribe = immunity_challenge
-    immune = winning_tribe.members.sample
-    winning_tribe.tribal_council(immune: immune)
+    self.each { |tribe| tribe.members.delete(random_member) }
+    random_member
   end
 end
