@@ -21,30 +21,28 @@ require_relative "jury"
 #This is where you will write your code for the three phases
 def phase_one
   8.times do
-    loosing_tribe = @borneo.immunity_challenge
-    loosing_tribe.tribal_council
-    
-    # puts @borneo.tribes[0].members.length
-    # puts @borneo.tribes[1].members.length
-    # loosing_tribe.tribal_council
+    loosing_team = @borneo.immunity_challenge
+    loosing_member = loosing_team.members.sample
+    @borneo.tribes.each do |tribe|
+      tribe.members.delete_if { |member| member.name == loosing_member.to_s }
+    end
   end
 end
 
 def phase_two
-  # 3.times do
-  #   @borneo.individual_immunity_challenge
-  #
-  # end
-  # p @borneo.tribes[0].members.length
-  # p @borneo.tribes[1].members.length
+  3.times do
+    loosing_member = @merge_tribe.members.sample
+    @merge_tribe.members.delete_if { |member| member.name == loosing_member.to_s}
+  end
 end
 
 def phase_three
-  # 7.times do
-  #   winner = @merge_tribe.members.sample
-  #   new_jury_member = @merge_tribe.tribal_council(immune: winner)
-  #   @jury.add_member(new_jury_member)
-  # end
+  7.times do
+    loosing_member = @merge_tribe.members.sample
+    @jury.add_member(loosing_member)
+    @merge_tribe.members.delete_if { |member| member.name == loosing_member.to_s}
+  end
+  #@jury.cast_votes(@finalists).each {|k,v| total_votes += v}
 end
 
 
@@ -52,15 +50,10 @@ end
 #=========================================================
 phase_one #8 eliminations
 @merge_tribe = @borneo.merge("Cello") # After 8 eliminations, merge the two tribes together
-############################
-
-p @merge_tribe.members.length
-
-############################
-# phase_two #3 more eliminations
-# @jury = Jury.new
-# phase_three #7 elminiations become jury members
-# finalists = @merge_tribe.members #set finalists
-# vote_results = @jury.cast_votes(finalists) #Jury members report votes
-# @jury.report_votes(vote_results) #Jury announces their votes
-# @jury.announce_winner(vote_results) #Jury announces final winner
+phase_two #3 more eliminations
+@jury = Jury.new
+phase_three #7 elminiations become jury members
+finalists = @merge_tribe.members #set finalists
+vote_results = @jury.cast_votes(finalists) #Jury members report votes
+@jury.report_votes(vote_results) #Jury announces their votes
+@jury.announce_winner(vote_results) #Jury announces final winner

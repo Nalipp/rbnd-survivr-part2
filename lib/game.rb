@@ -1,38 +1,34 @@
 class Game
-  attr_reader = :tribes
+  attr_reader :tribes
 
-  def initialize(tribe_one, tribe_two)
-    @tribes = [tribe_one, tribe_two]
+  def initialize(tribe1, tribe2)
+    @tribes = []
+    @tribes << tribe1
+    @tribes << tribe2
   end
 
-  def tribes
+  def add_tribe(tribe3)
+    @tribes << tribe3
+  end
+
+  def self.tribes
     @tribes
   end
 
-  def add_tribe(name)
-    @tribes << name
+  def merge(new_tribe_name)
+    combined_members = @tribes.map { |tribe| tribe.members }.flatten
+    Tribe.new({name: new_tribe_name, members: combined_members})
+  end
+
+  def immunity_challenge
+    @tribes.sample
+  end
+
+  def individual_immunity_challenge
+    immunity_challenge.members.sample
   end
 
   def clear_tribes
     @tribes = []
-  end
-
-  def merge(new_tribe_name)
-    combined_members = []
-    @tribes.each {|tribe| combined_members += tribe.members }
-    Tribe.new(name: new_tribe_name, members: combined_members)
-  end
-
-  def immunity_challenge #selects a tribe at random
-    @tribes.sample
-  end
-
-  def random_member #selects from a random tribe a member at random
-    @tribes.sample.members.sample
-  end
-
-  def individual_immunity_challenge
-    self.each { |tribe| tribe.members.delete(random_member) }
-    random_member
   end
 end

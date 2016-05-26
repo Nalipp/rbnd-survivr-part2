@@ -5,12 +5,8 @@ class Jury
     @members = []
   end
 
-  def add_member(member)
-    @members << member
-  end
-
-  def members
-    @members
+  def add_member(contestant)
+    @members << contestant
   end
 
   def cast_votes(finalist)
@@ -26,12 +22,13 @@ class Jury
   end
 
   def report_votes(final_votes)
-    final_votes.each { |finalist, votes| puts "#{finalist} recieved " + votes.to_s + " votes." }
+    final_votes.each { |k,v| puts "#{k} recieved #{v} votes" }
   end
 
   def announce_winner(final_votes)
-    winner = final_votes.key(final_votes.values.max)
-    puts "#{winner} is the winner with " + final_votes.values.max.to_s + " votes."
-    return winner
+    winner = final_votes.max_by{|k,v| v}[0].name
+    final_winner = final_votes.select { |contestant| contestant.name == winner }.keys.first
+    puts "The winner is #{winner.upcase}!!"
+    final_winner
   end
 end
