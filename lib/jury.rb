@@ -1,3 +1,5 @@
+require 'colorizr'
+
 class Jury
   attr_accessor :members
 
@@ -28,7 +30,7 @@ class Jury
   def announce_winner(final_votes)
     winner = final_votes.max_by{|k,v| v}[0].name
     final_winner = final_votes.select { |contestant| contestant.name == winner }.keys.first
-    puts "The winner is #{winner.upcase}!!"
+    puts "The winner is #{winner.upcase}!!".blue
     final_winner
   end
 end
