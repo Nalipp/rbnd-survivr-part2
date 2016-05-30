@@ -21,28 +21,21 @@ require_relative "jury"
 #This is where you will write your code for the three phases
 def phase_one
   8.times do
-    loosing_team = @borneo.immunity_challenge
-    loosing_member = loosing_team.members.sample
-    @borneo.tribes.each do |tribe|
-      tribe.members.delete_if { |member| member.name == loosing_member.to_s }
-    end
+    loosing_tribe = @borneo.immunity_challenge
+    loosing_tribe.tribal_council
   end
 end
 
 def phase_two
   3.times do
-    loosing_member = @merge_tribe.members.sample
-    @merge_tribe.members.delete_if { |member| member.name == loosing_member.to_s}
+		@merge_tribe.tribal_council(immune: @borneo.individual_immunity_challenge)
   end
 end
 
 def phase_three
   7.times do
-    loosing_member = @merge_tribe.members.sample
-    @jury.add_member(loosing_member)
-    @merge_tribe.members.delete_if { |member| member.name == loosing_member.to_s}
+    @jury.add_member(@merge_tribe.tribal_council(immune: @borneo.individual_immunity_challenge))
   end
-  #@jury.cast_votes(@finalists).each {|k,v| total_votes += v}
 end
 
 

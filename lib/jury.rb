@@ -15,22 +15,20 @@ class Jury
     @finalists = Hash[finalist.map {|name| [name, 0]}]
 
     @members.map do |member|
-      keys = @finalists.keys
-      vote = keys[rand(keys.size)]
-      puts "#{member} voted for #{vote}."
+      vote = finalist.sample
+      puts "#{member} voted for" + " #{vote}.".green
       @finalists[vote] += 1
     end
     @finalists
   end
 
   def report_votes(final_votes)
-    final_votes.each { |k,v| puts "#{k} recieved #{v} votes" }
+    final_votes.each { |finalist,votes| puts "#{finalist} recieved #{votes} votes" }
   end
 
   def announce_winner(final_votes)
-    winner = final_votes.max_by{|k,v| v}[0].name
-    final_winner = final_votes.select { |contestant| contestant.name == winner }.keys.first
-    puts "The winner is #{winner.upcase}!!".blue
-    final_winner
+    winner = final_votes.max_by{|k,v| v}[0]
+    puts "The winner is #{winner.to_s}".blue
+    winner
   end
 end
