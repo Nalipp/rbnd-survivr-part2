@@ -16,9 +16,11 @@ class Game
   end
 
   def merge(new_tribe_name)
-    combined_members = []
-    @tribes.each {|tribe| combined_members += tribe.members }
-    Tribe.new(name: new_tribe_name, members: combined_members)
+    new_members = @tribes.map {|tribe| tribe.members }.flatten
+    new_tribe = Tribe.new(name: new_tribe_name, members: new_members)
+    clear_tribes
+    add_tribe(new_tribe)
+    new_tribe
   end
 
   def immunity_challenge
